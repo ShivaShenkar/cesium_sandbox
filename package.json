@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "generate:dot-lods": "node scripts/generate-land-dot-lods.mjs",
     "preview": "vite preview",
     "tiles": "node tile-server.mjs"
   },
