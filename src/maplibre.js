@@ -31,23 +31,9 @@ map.on("style.load", () => {
   removeDotRendererListeners();
   map.setProjection({type: "globe"});
 
-  const importedLayers = map.getStyle().layers ?? [];
-  const maskLayerIds = new Set(["Water", "River"]);
+  map.setLayoutProperty("Background", "visibility", "none");
+  // map.setLayoutProperty("Water", "visibility", "none");
 
-  // Keep only the water masks from the imported style. The dots are inserted
-  // below these layers, so water geometries cover dots outside the land.
-  for (const layer of importedLayers) {
-    map.setLayoutProperty(
-      layer.id,
-      "visibility",
-      maskLayerIds.has(layer.id) ? "visible" : "none",
-    );
-  }
-
-  const firstImportedLayerId = importedLayers[0]?.id;
-  const firstMaskLayerId = importedLayers.find((layer) =>
-    maskLayerIds.has(layer.id)
-  )?.id;
 
   map.addLayer({
     id: "dot-globe-background",
@@ -56,22 +42,22 @@ map.on("style.load", () => {
       "background-color": "#061B3B",
       "background-opacity": 1,
     },
-  }, firstImportedLayerId);
+  }, "Background");
 
-  if (map.getLayer("Water")) {
-    map.setPaintProperty("Water", "fill-pattern", null);
-    map.setPaintProperty("Water", "fill-color", "#061B3B");
-    map.setPaintProperty("Water", "fill-opacity", 1);
-  }
+  // if (map.getLayer("Water")) {
+  //   map.setPaintProperty("Water", "fill-pattern", null);
+  //   map.setPaintProperty("Water", "fill-color", "#061B3B");
+  //   map.setPaintProperty("Water", "fill-opacity", 1);
+  // }
 
-  if (map.getLayer("River")) {
-    map.setPaintProperty("River", "line-color", "#061B3B");
-    map.setPaintProperty("River", "line-opacity", 1);
-  }
+  // if (map.getLayer("River")) {
+  //   map.setPaintProperty("River", "line-color", "#061B3B");
+  //   map.setPaintProperty("River", "line-opacity", 1);
+  // }
 
   removeDotRendererListeners = setupDotRenderer(map, {
     backgroundLayerId: "dot-globe-background",
-    beforeLayerId: firstMaskLayerId,
+    beforeLayerId: "Water",
   });
 
   console.info(`Using ${rendererName} dot renderer`);
