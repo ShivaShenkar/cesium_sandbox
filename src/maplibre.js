@@ -33,7 +33,9 @@ map.on("style.load", () => {
 
   map.setLayoutProperty("Background", "visibility", "none");
   // map.setLayoutProperty("Water", "visibility", "none");
-
+  if (map.getLayer("River")) {
+    map.setPaintProperty("River", "line-width", 5);
+  }
 
   map.addLayer({
     id: "dot-globe-background",
